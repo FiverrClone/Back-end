@@ -67,7 +67,7 @@ const gigResolver = {
                     gigs: [{_id: id}],
                 },
             });
-            const gig = await context.models.Gig.findById({ _id: id })
+            const gig = await context.models.Gig.findById({ _id: id });
             const imageUrl = gig.image;
             console.log(imageUrl);
             await deleteBlobFromUrl(imageUrl);

@@ -58,10 +58,13 @@ export const UploadImagesAndGetUrl = async (file, context) => {
 
 export const deleteBlobFromUrl = (blobUrl) => {
     // Extract container name and blob name from the URL
-    const urlParts = azure.BlobUtilities.getUrlParts(blobUrl);
-    const containerName = urlParts.container;
-    const blobName = urlParts.blob;
-  
+    // const urlParts = azure.BlobUtilities.getUrlParts(blobUrl);
+    // const containerName = urlParts.container;
+    // const blobName = urlParts.blob;
+    const urlParts = new URL(blobUrl);
+    const containerName = urlParts.pathname.split('/')[1];
+    const blobName = urlParts.pathname.split('/')[2];
+    console.log(blobName)
     const blobService = azure.createBlobService();
   
     return new Promise((resolve, reject) => {
