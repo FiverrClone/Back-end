@@ -11,7 +11,8 @@ type User{
     gender: String
     birthday: String
     role: Roles
-    # gigs:[Gig]
+    gigs:[Gig]
+    # comments:[Comment]
     token: String
 
 }
@@ -66,8 +67,8 @@ type Query{
 type Mutation{
     registerUser(registerInput:RegisterInput!):User!
     loginUser(loginInput:LoginInput):User!
-    updateUser(id: ID!, input: UpdateInput): User!
-    deleteUser(id: ID!): Response
+    updateUser(input: UpdateInput): User!
+    deleteUser: Response
 }
 `;
 export default userSchema;

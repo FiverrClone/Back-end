@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema({
             default: "CUSTOMER",},
     gigs:[{type:Schema.Types.ObjectId,
         ref:"Gig"}]
+//     comments:[{type:Schema.Types.ObjectId,
+//         ref:"Comment"}]
 
 },{ timestamps: true });
 const User = mongoose.model("User",userSchema)

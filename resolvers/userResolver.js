@@ -1,4 +1,3 @@
-import { GraphQLError } from 'graphql';
 import {signUpValidation,signInValidation} from '../validation/authvalidation.js';
 import {hashPassword, validatePassword,generateToken} from '../helpers/auth.js';
 import UserHelper from "../helpers/UserHelper.js";
@@ -22,6 +21,7 @@ const userResolver = {
     },
     Mutation:{
         registerUser: async (_,args,context)=>{
+            
             const {registerInput}=args;
             // See if an old user exists with email or username attempting to register
             
@@ -60,7 +60,7 @@ const userResolver = {
 
         loginUser: async(_,args,context)=>{
             const {loginInput}=args
-
+            
             //Input Validation
 
             const error = await signInValidation(loginInput)
@@ -71,6 +71,7 @@ const userResolver = {
             //See if a user exists with the email
 
             const user= await context.models.User.findOne({email:loginInput.email})
+            
             if(user.length===0){
                 throw new Error("User does not exist")
             }
@@ -84,19 +85,22 @@ const userResolver = {
 
             //Create a New token
 
-            const token=generateToken({
+            const jwt=generateToken({
                 email:user.email,
-                id:user.id
+                id:user._id,
+                role: user.role,
             })
 
             return{
-                id:user.id ,
+                id:user._doc._id ,
                 ...user._doc,
-                token
+                token:jwt
             }
 
         },
-        updateUser: async ( _, { id, input }, context) => {
+        updateUser: async ( _, args, context) => {
+            const {input}=args
+            const id=context.user.id;
             const isExists = await UserHelper.isUserExists(id);
             if(!isExists){
                 throw new Error(`User with id ${id} does not exists.`)
@@ -111,7 +115,8 @@ const userResolver = {
             };
           },
 
-          deleteUser: async (_, { id }, context) => {
+          deleteUser: async (_, args, context) => {
+            const id=context.user.id;
             const isExists = await UserHelper.isUserExists(id);
             if(!isExists){
                 throw new Error(`User with id ${id} does not exists.`)

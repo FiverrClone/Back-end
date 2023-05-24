@@ -24,11 +24,11 @@ export const generateToken = async (user)=>{
     return token;
 }
 
-export const decryptToken = (token)=>{
-    try{
-        const user=jwt.verify(token,process.env.PRIVATE_KEY)
-        return user;
-    }catch(error){
-        return null;
+export const getUserFromJWT = (token) => {
+    try {
+      const user = jwt.verify(token, process.env.PRIVATE_KEY);
+      return user;
+    } catch (error) {
+      return null;
     }
-}
+  };

@@ -1,3 +1,4 @@
 import userSchema from './userSchema.js';
+import gigSchema from './gigSchema.js';
 
-export default [userSchema];
+export default [userSchema,gigSchema];
