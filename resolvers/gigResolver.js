@@ -27,10 +27,14 @@ const gigResolver = {
     Mutation:{
         createGig: async (_,args,context)=>{
 
+            if (!context.user) return new Error('User not Authenticated') ;
+            if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
+
             const {title,description}=args;
+            console.log(args)
 
-            const blobUrl=await UploadImagesAndGetUrl(args.file,context)
-
+            const blobUrl=await UploadImagesAndGetUrl(args.file,context);
+            
             const newGig = new context.models.Gig({
                 title,
                 description,
@@ -50,9 +54,19 @@ const gigResolver = {
                 user
             };
         },
-        updateGig: async ( _, {id,input}, context) => {
+        updateGig: async ( _, {id,file,input}, context) => {
 
-            const gig = await context.models.Gig.findOneAndUpdate({ _id: id }, input,{ new: true } );
+            if (!context.user) return new Error('User not Authenticated') ;
+            if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
+            
+            const fileurl=await UploadImagesAndGetUrl(file,context);
+
+            const findgig = await context.models.Gig.findById({ _id: id });
+            const imageUrl = findgig.image;
+            
+            const gig = await context.models.Gig.findOneAndUpdate({ _id: id }, {...input,image:fileurl},{ new: true } );
+
+            await deleteBlobFromUrl(imageUrl);
             return {
                 id:gig.id ,
                 ...gig._doc,
@@ -60,6 +74,8 @@ const gigResolver = {
         },
 
         deleteGig: async (_, args, context) => {
+            if (!context.user) return new Error('User not Authenticated') ;
+            if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
             const {id}=args;
             console.log(id);
             await context.models.User.updateOne({_id : context.user.id }, {
@@ -69,9 +85,9 @@ const gigResolver = {
             });
             const gig = await context.models.Gig.findById({ _id: id });
             const imageUrl = gig.image;
-            console.log(imageUrl);
-            await deleteBlobFromUrl(imageUrl);
+            
             const isDeleted = (await context.models.Gig.deleteOne({ _id: id })).deletedCount;
+            await deleteBlobFromUrl(imageUrl);
             return {
               status: isDeleted, // return true if something is deleted, 0 if nothing is deleted
               message: 'Gig deleted.',

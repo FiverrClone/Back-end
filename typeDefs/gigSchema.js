@@ -1,6 +1,4 @@
 import gql from 'graphql-tag';
-// import { gql } from 'apollo-server-express';
-
 
 const gigSchema = gql`
 
@@ -37,9 +35,9 @@ type Query{
 }
 
 type Mutation{
-    createGig(file:Upload!,title: String!,description: String!):Gig!
-    updateGig(id: ID!, input: UpdateGigInput): Gig!
-    deleteGig(id: ID!): Response
+    createGig(file:Upload ,title: String!,description: String!):Gig! 
+    updateGig(id: ID!, file:Upload, input: UpdateGigInput): Gig! 
+    deleteGig(id: ID!): Response 
 }
 
 `;

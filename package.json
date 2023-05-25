@@ -22,6 +22,7 @@
     "@apollo/server": "^4.7.1",
     "@azure/storage-blob": "^12.14.0",
     "apollo-server": "^3.12.0",
+    "apollo-server-hapi": "^3.12.0",
     "azure-storage": "^2.10.7",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",

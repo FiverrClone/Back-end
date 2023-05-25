@@ -1,32 +1,3 @@
-
-// import * as dotenv from 'dotenv';
-// import azure  from 'azure-storage'
-
-// dotenv.config();
-
-// const CONX_url=process.env.AZURE_STORAGE_CONNECTION_STRING
-// const container=process.env.CONTAINER_NAME
-// const blobService = azure.createBlobService(CONX_url);
-
-
-// export const UploadImagesAndGetUrl = async (file,context) => {
-//     try {
-//         const { createReadStream, filename, mimetype } = await file;
-//         let streamSize = parseInt(context.req.headers['content-length'])
-//         const fileStream = createReadStream()
-
-//         blobService.createBlockBlobFromStream(container,filename,fileStream,streamSize,(error,response) => {
-//             if(!error){
-//               console.log(response)
-//             }
-//         })
-//         const blobUrl = blobService.getUrl(container, filename);
-//         return blobUrl;
-
-//     } catch (error) {
-//       return null;
-//     }
-//   };
 import dotenv from 'dotenv';
 import azure from 'azure-storage';
 
@@ -38,6 +9,9 @@ const blobService = azure.createBlobService(CONX_url);
 
 export const UploadImagesAndGetUrl = async (file, context) => {
   try {
+
+    let blobUrl=process.env.DEFAULT_BLOB;
+    if (file) {
     const { createReadStream, filename } = await file;
     let streamSize = parseInt(context.req.headers['content-length']);
     const fileStream = createReadStream();
@@ -47,8 +21,8 @@ export const UploadImagesAndGetUrl = async (file, context) => {
         console.log(response);
       }
     });
-
-    const blobUrl = blobService.getUrl(container, filename);
+    blobUrl = blobService.getUrl(container, filename);
+  }
     return blobUrl;
   } catch (error) {
     return null;
@@ -57,14 +31,12 @@ export const UploadImagesAndGetUrl = async (file, context) => {
 
 
 export const deleteBlobFromUrl = (blobUrl) => {
+    const defaultBlob=process.env.DEFAULT_BLOB;
+    if (blobUrl!=defaultBlob){
     // Extract container name and blob name from the URL
-    // const urlParts = azure.BlobUtilities.getUrlParts(blobUrl);
-    // const containerName = urlParts.container;
-    // const blobName = urlParts.blob;
     const urlParts = new URL(blobUrl);
     const containerName = urlParts.pathname.split('/')[1];
     const blobName = urlParts.pathname.split('/')[2];
-    console.log(blobName)
     const blobService = azure.createBlobService();
   
     return new Promise((resolve, reject) => {
@@ -76,4 +48,5 @@ export const deleteBlobFromUrl = (blobUrl) => {
         }
       });
     });
+  }
   };

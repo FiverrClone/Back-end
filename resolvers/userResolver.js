@@ -99,6 +99,7 @@ const userResolver = {
 
         },
         updateUser: async ( _, args, context) => {
+            if (!context.user) return new Error('User not Authenticated') ;
             const {input}=args
             const id=context.user.id;
             const isExists = await UserHelper.isUserExists(id);
@@ -116,6 +117,7 @@ const userResolver = {
           },
 
           deleteUser: async (_, args, context) => {
+            if (!context.user) return new Error('User not Authenticated') ;
             const id=context.user.id;
             const isExists = await UserHelper.isUserExists(id);
             if(!isExists){
