@@ -10,6 +10,7 @@ type Gig {
     description: String
     user: User
     image:String
+    category:String
     # comments: [Comment]
     createdAt:String
     updatedAt:String
@@ -23,6 +24,7 @@ type Gig {
 input UpdateGigInput{
     title: String
     description: String
+    category:String
 }
 
 type Response {
@@ -32,10 +34,11 @@ type Response {
 type Query{
     gig(id: ID!): Gig!
     gigs:[Gig!]!
+    gigByCategory(category:String!):[Gig!]!
 }
 
 type Mutation{
-    createGig(file:Upload ,title: String!,description: String!):Gig! 
+    createGig(file:Upload ,title: String!,description: String!,category:String!):Gig! 
     updateGig(id: ID!, file:Upload, input: UpdateGigInput): Gig! 
     deleteGig(id: ID!): Response 
 }

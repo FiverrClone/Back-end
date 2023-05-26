@@ -22,6 +22,9 @@ const gigResolver = {
 
             return gig;
             },
+        gigByCategory:async(_,{category},context)=>{
+            return await context.models.Gig.find({category:category}).populate('user');
+        },
         gigs:async(_,args,context)=> await context.models.Gig.find().populate('user'),
     },
     Mutation:{
@@ -30,14 +33,14 @@ const gigResolver = {
             if (!context.user) return new Error('User not Authenticated') ;
             if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
 
-            const {title,description}=args;
-            console.log(args)
+            const {title,description,category}=args;
 
             const blobUrl=await UploadImagesAndGetUrl(args.file,context);
             
             const newGig = new context.models.Gig({
                 title,
                 description,
+                category,
                 image:blobUrl,
                 user:context.user.id
             }) ;
