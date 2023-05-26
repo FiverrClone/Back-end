@@ -12,7 +12,6 @@ type User{
     birthday: String
     role: Roles
     gigs:[Gig]
-    # comments:[Comment]
     token: String
 
 }

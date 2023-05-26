@@ -11,7 +11,6 @@ type Gig {
     user: User
     image:String
     category:String
-    # comments: [Comment]
     createdAt:String
     updatedAt:String
   }
