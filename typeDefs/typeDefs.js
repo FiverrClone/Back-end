@@ -1,5 +1,5 @@
 import userSchema from './userSchema.js';
 import gigSchema from './gigSchema.js';
-import ReviewSchema from './ReviewSchema.js';
+// import reviewSchema from './reviewSchema.js'
 
-export default [userSchema,gigSchema,ReviewSchema];
+export default [userSchema,gigSchema];

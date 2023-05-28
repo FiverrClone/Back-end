@@ -23,6 +23,7 @@ const userResolver = {
         registerUser: async (_,args,context)=>{
             
             const {registerInput}=args;
+            
             // See if an old user exists with email or username attempting to register
             
             const existingEmail=await context.models.User.findOne({email:registerInput.email});
