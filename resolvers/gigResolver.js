@@ -32,7 +32,7 @@ const gigResolver = {
             if (!context.user) return new Error('User not Authenticated') ;
             if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
 
-            const {title,description,category}=args;
+            const {title,description,category,price}=args;
 
             const blobUrl=await UploadImagesAndGetUrl(args.file,context);
             
@@ -40,6 +40,7 @@ const gigResolver = {
                 title,
                 description,
                 category,
+                price,
                 image:blobUrl,
                 user:context.user.id
             }) ;

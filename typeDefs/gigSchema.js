@@ -9,6 +9,7 @@ type Gig {
     title: String
     description: String
     user: User
+    price :String!
     image:String
     reviews: Review
     category:String
@@ -25,6 +26,7 @@ input UpdateGigInput{
     title: String
     description: String
     category:String
+    price:String
 }
 
 type Response {
@@ -38,7 +40,7 @@ type Query{
 }
 
 type Mutation{
-    createGig(file:Upload ,title: String!,description: String!,category:String!):Gig! 
+    createGig(file:Upload ,title: String!,description: String!,category:String!,price:String!):Gig! 
     updateGig(id: ID!, file:Upload, input: UpdateGigInput): Gig! 
     deleteGig(id: ID!): Response 
 }
