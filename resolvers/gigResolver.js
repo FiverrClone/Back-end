@@ -14,8 +14,7 @@ const gigResolver = {
                 throw new Error(`404 NOT FOUND`);
             }
             
-            const gig = await context.models.Gig.findById(id).populate('user');
-            console.log(gig);
+            const gig = await context.models.Gig.findById(id).populate('reviews user');
             if(!gig){
                 throw new Error(`Gig with id ${id} does not exists.`);
             }
@@ -80,15 +79,27 @@ const gigResolver = {
             if (!context.user) return new Error('User not Authenticated') ;
             if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
             const {id}=args;
-            console.log(id);
+
+            // Find the gig to delete
+            const gig = await context.models.Gig.findById({ _id: id });
+            if (!gig) {
+                throw new Error('GIG not found');
+            }
+            // const gig = await context.models.Gig.findById({ _id: id });
+            const imageUrl = gig.image;
+                        
+            // Check if the authenticated user is the owner of the gig
+            if (gig.user.toString() !== context.user.id) {
+                throw new Error('Unauthorized: User is not the owner of the review');
+            }
+            console.log(gig.id);
             await context.models.User.updateOne({_id : context.user.id }, {
                 $pullAll: {
-                    gigs: [{_id: id}],
+                    gigs: [{_id: gig.id}],
                 },
             });
-            const gig = await context.models.Gig.findById({ _id: id });
-            const imageUrl = gig.image;
-            
+
+
             const isDeleted = (await context.models.Gig.deleteOne({ _id: id })).deletedCount;
             await deleteBlobFromUrl(imageUrl);
             return {

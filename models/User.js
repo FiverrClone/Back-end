@@ -12,11 +12,11 @@ const userSchema = new mongoose.Schema({
     birthday: {type:String,require:true},
     role: {type:String,
             enum:["FREELANCER", "CUSTOMER"],
-            default: "CUSTOMER",},
+            default: "CUSTOMER"},
     gigs:[{type:Schema.Types.ObjectId,
-        ref:"Gig"}]
-//     comments:[{type:Schema.Types.ObjectId,
-//         ref:"Comment"}]
+        ref:"Gig"}],
+    reviews:[{type:Schema.Types.ObjectId,
+        ref:"Review"}]
 
 },{ timestamps: true });
 const User = mongoose.model("User",userSchema)

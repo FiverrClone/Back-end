@@ -12,6 +12,7 @@ type User{
     birthday: String
     role: Roles
     gigs:[Gig]
+    reviews:[Review]
     token: String
 
 }

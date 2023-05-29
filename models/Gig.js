@@ -9,7 +9,9 @@ const gigSchema = new mongoose.Schema({
     category:{type:String,require:true},
     image:{type:String},
     user:{type:Schema.Types.ObjectId,
-        ref:"User"}
+        ref:"User"},
+    reviews:[{type:Schema.Types.ObjectId,
+        ref:"Review"}]
 
 },{ timestamps: true });
 const Gig = mongoose.model("Gig",gigSchema)

@@ -18,7 +18,7 @@ export const UploadImagesAndGetUrl = async (file, context) => {
 
     blobService.createBlockBlobFromStream(container, filename, fileStream, streamSize, (error, response) => {
       if (!error) {
-        console.log(response);
+        console.log('true');
       }
     });
     blobUrl = blobService.getUrl(container, filename);
@@ -31,6 +31,7 @@ export const UploadImagesAndGetUrl = async (file, context) => {
 
 
 export const deleteBlobFromUrl = (blobUrl) => {
+
     const defaultBlob=process.env.DEFAULT_BLOB;
     if (blobUrl!=defaultBlob){
     // Extract container name and blob name from the URL

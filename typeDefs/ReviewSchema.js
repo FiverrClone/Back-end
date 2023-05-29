@@ -1,43 +1,36 @@
-// import gql from 'graphql-tag';
+import gql from 'graphql-tag';
 
-// const reviewSchema = gql`
+const reviewSchema = gql`
 
-// type Review {
-//     id: ID
-//     content: String
-//     star: Stars
-//     user: User
-//     gig: Gig
-//     createdAt:String
-//     updatedAt:String
-//   }
+type Review {
+    id: ID
+    content: String
+    rating:Int 
+    user: User
+    gig: Gig
+    createdAt:String
+    updatedAt:String
+  }
 
-// enum Stars{
-//     1
-//     2
-//     3
-//     4
-//     5
-// }
-// input CreateReviewInput{
-//     gig:String!
-//     content: String!
-//     star: Stars
-// }
 
-// type Response {
-//     status: Boolean
-//     message: String!
-// }
-// type Query{
-//     reviews(gig:String!):[Review!]!
-// }
+input CreateReviewInput{
+    gig:String!
+    content: String!
+    rating: Int
+}
 
-// type Mutation{
-//     createReview(input: CreateReviewInput):Review! 
-//     updateReview(id: ID!, input: CreateReviewInput): Review! 
-//     deleteReview(id: ID!): Response 
-// }
+type Response {
+    status: Boolean
+    message: String!
+}
+type Query{
+    reviewsbyGig(gig:String!):[Review!]!
+}
 
-// `;
-// export default reviewSchema;
+type Mutation{
+    createReview(input: CreateReviewInput):Review! 
+    deleteReview(id: ID!): Response 
+}
+
+`;
+export default reviewSchema;

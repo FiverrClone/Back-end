@@ -10,6 +10,7 @@ type Gig {
     description: String
     user: User
     image:String
+    reviews: Review
     category:String
     createdAt:String
     updatedAt:String
