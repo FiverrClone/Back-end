@@ -4,6 +4,7 @@ const orderSchema = gql`
 
 type Order {
     id: ID
+    title:String
     customer: User
     freelancer: User 
     price: Float
@@ -20,21 +21,16 @@ enum OrderStatus {
   DECLINED,# The order has been cancelled by the freelancer
 },
 
-input CreateOrderInput{
-    gig:String!
-    freelancer: String!
-    customer: String!
-    price:Float!
-}
 
 type Query{
-    ordersbyCustomer(customer:String!):[Order]!
-    ordersbyFreelancer(freelancer:String!):[Order]!
+    orders:[Order]!
     orderbyId(id:ID!):Order!
 }
 
 type Mutation{
-    createOrder(input: CreateOrderInput):Order! 
+    createOrder(gigId:String!):Order! 
+    updateOrderStatus(id: ID!, status: OrderStatus): Order!
+
 }
 
 `;

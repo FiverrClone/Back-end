@@ -16,7 +16,9 @@ const userSchema = new mongoose.Schema({
     gigs:[{type:Schema.Types.ObjectId,
         ref:"Gig"}],
     reviews:[{type:Schema.Types.ObjectId,
-        ref:"Review"}]
+        ref:"Review"}],
+    orders: [{type:Schema.Types.ObjectId,
+        ref: "Order"}]
 
 },{ timestamps: true });
 const User = mongoose.model("User",userSchema)

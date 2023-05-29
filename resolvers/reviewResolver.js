@@ -12,7 +12,7 @@ const reviewResolver = {
     Mutation:{
         createReview: async(_,args,context)=>{
             const {input}=args
-            console.log({input})
+
             if (!context.user) return new Error('User not Authenticated') ;
             const newReview = new context.models.Review({
                 ...input,
