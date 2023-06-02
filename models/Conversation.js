@@ -14,7 +14,7 @@ const conversationSchema = new mongoose.Schema({
       ref: "Message",
       populate: {
         path: "sender",
-        select: "_id username",
+        select: "id username",
       },
     },
   ],
