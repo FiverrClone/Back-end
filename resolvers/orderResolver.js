@@ -1,4 +1,10 @@
 import mongoose from "mongoose";
+import stripe from 'stripe';
+import { origin } from "../config/stripe.js";
+const secretKey = process.env.SECRET_KEY_STRIPE;
+const stripee = new stripe(secretKey)
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const orderResolver = {
 
@@ -18,11 +24,27 @@ const orderResolver = {
     Mutation:{
         createOrder: async(_,args,context)=>{
             const {gigId}=args
-            console.log(gigId)
+            
             if (!context.user) return new Error('User not Authenticated') ;
             const gig =await context.models.Gig.findById(gigId);
+            const session=await stripee.checkout.sessions.create({
+                line_items:[{
+                    price_data:{
+                        currency:'usd',
+                        product_data:{
+                            name:gig.title,
+                            images:[gig.image]
+                        },
+                        unit_amount:gig.price*100,
+                    },
+                    quantity:1
+                }],
+                mode:"payment",
+                success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${origin}/cart?cancelled=true`,
+            })
             const newOrder = new context.models.Order({
-                gig:gig.id,
+                gig:gigId,
                 title:gig.title,
                 price:gig.price,
                 freelancer:gig.user,
@@ -40,11 +62,8 @@ const orderResolver = {
             await customer.save();
 
             return {
-                id:createdOrder.id,
-                ...createdOrder._doc,
-                customer:customer._doc,
-                freelancer:freelancer._doc,
-                gig
+                id: session.id,
+                url: session.url,
             };
             
         },

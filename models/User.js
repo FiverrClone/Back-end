@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     reviews:[{type:Schema.Types.ObjectId,
         ref:"Review"}],
     orders: [{type:Schema.Types.ObjectId,
-        ref: "Order"}]
+        ref: "Order"}],
 
 },{ timestamps: true });
 const User = mongoose.model("User",userSchema)

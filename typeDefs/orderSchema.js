@@ -20,7 +20,10 @@ enum OrderStatus {
   CANCELLED,# The order has been cancelled by the client
   DECLINED,# The order has been cancelled by the freelancer
 },
-
+type CheckoutSession {
+  id: ID!
+  url: String
+}
 
 type Query{
     orders:[Order]!
@@ -28,7 +31,7 @@ type Query{
 }
 
 type Mutation{
-    createOrder(gigId:String!):Order! 
+    createOrder(gigId:String!):CheckoutSession! 
     updateOrderStatus(id: ID!, status: OrderStatus): Order!
 
 }
