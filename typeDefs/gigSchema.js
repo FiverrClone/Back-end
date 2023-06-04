@@ -22,7 +22,7 @@ input CreateGigInput{
     description: String!
     category:String!
     price:String!
-    file:Upload 
+
 }
 
 input UpdateGigInput{
@@ -44,7 +44,7 @@ type Query{
 }
 
 type Mutation{
-    createGig(input:CreateGigInput):Gig! 
+    createGig(file:Upload,input:CreateGigInput):Gig! 
     updateGig(id: ID!,input: UpdateGigInput): Gig! 
     deleteGig(id: ID!): Response 
 }

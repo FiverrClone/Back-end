@@ -33,8 +33,8 @@ const gigResolver = {
             if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
             const {input}=args
             // const {title,description,category,price}=args;
-            console.log({file:input.file})
-            const blobUrl=await UploadImagesAndGetUrl(input.file,context);
+           console.log(args.file)
+            const blobUrl=await UploadImagesAndGetUrl(args.file,context);
             
             const newGig = new context.models.Gig({
                 title:input.title,
@@ -61,7 +61,7 @@ const gigResolver = {
 
             if (!context.user) return new Error('User not Authenticated') ;
             if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
-            
+            console.log({file:input.file})
             const fileurl=await UploadImagesAndGetUrl(input.file,context);
 
             const findgig = await context.models.Gig.findById({ _id: id });
