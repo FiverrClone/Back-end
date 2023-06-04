@@ -15,6 +15,7 @@ const orderResolver = {
 
             const orders=await context.models.Order.find({customer:context.user.id})
             .populate('freelancer', 'username')
+            .populate('customer', 'username') 
 
             return orders;
             

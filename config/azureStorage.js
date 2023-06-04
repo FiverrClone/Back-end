@@ -9,7 +9,6 @@ const blobService = azure.createBlobService(CONX_url);
 
 export const UploadImagesAndGetUrl = async (file, context) => {
   try {
-
     let blobUrl=process.env.DEFAULT_BLOB;
     if (file) {
     const { createReadStream, filename } = await file;

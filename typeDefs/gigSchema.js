@@ -17,16 +17,20 @@ type Gig {
     updatedAt:String
   }
 
-# input CreateGigInput{
-#     title: String!
-#     description: String!
-# }
+input CreateGigInput{
+    title: String!
+    description: String!
+    category:String!
+    price:String!
+    file:Upload 
+}
 
 input UpdateGigInput{
     title: String
     description: String
     category:String
     price:String
+    file:Upload
 }
 
 type Response {
@@ -40,8 +44,8 @@ type Query{
 }
 
 type Mutation{
-    createGig(file:Upload ,title: String!,description: String!,category:String!,price:String!):Gig! 
-    updateGig(id: ID!, file:Upload, input: UpdateGigInput): Gig! 
+    createGig(input:CreateGigInput):Gig! 
+    updateGig(id: ID!,input: UpdateGigInput): Gig! 
     deleteGig(id: ID!): Response 
 }
 
