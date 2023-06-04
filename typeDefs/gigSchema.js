@@ -41,6 +41,7 @@ type Query{
     gig(id: ID!): Gig!
     gigs:[Gig!]!
     gigByCategory(category:String!):[Gig!]!
+    gigByUser:[Gig!]!
 }
 
 type Mutation{

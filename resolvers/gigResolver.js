@@ -21,6 +21,14 @@ const gigResolver = {
 
             return gig;
             },
+        gigByUser:async(_,args,context)=>{
+
+            if (!context.user) return new Error('User not Authenticated') ;
+            if(!context.user.role.includes('FREELANCER')) return new Error('User not Authorized');
+            const gigs=await context.models.Gig.find({user:context.user.id}) 
+
+            return gigs;
+        },
         gigByCategory:async(_,{category},context)=>{
             return await context.models.Gig.find({category:category}).populate('user');
         },
