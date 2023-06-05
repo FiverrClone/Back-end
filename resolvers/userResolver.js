@@ -17,6 +17,11 @@ const userResolver = {
 
             return user;
             },
+        logedUser:async(_,args,context)=>{
+            if (!context.user) return new Error('User not Authenticated') ;
+            const user=await context.models.User.findById({_id:context.user.id})
+            return user
+        },
         users:async(_,args,context)=> await context.models.User.find(),
     },
     Mutation:{
@@ -132,10 +137,10 @@ const userResolver = {
             };
           },
     },
-    User:{
-        password(){
-            return null;
-        }
-    }
+    // User:{
+    //     password(){
+    //         return null;
+    //     }
+    // }
 }
 export default userResolver

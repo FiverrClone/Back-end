@@ -62,6 +62,7 @@ input UpdateInput {
 type Query{
     user(id: ID!): User!
     users:[User!]!
+    logedUser:User!
 }
 
 type Mutation{
